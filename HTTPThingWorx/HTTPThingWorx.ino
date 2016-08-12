@@ -16,23 +16,22 @@ double sensorValues[sensorCount];
 char *nameArray[] = {"Photocell","Potentiometer","Temperature","Button"};
 int sensorPins[sensorCount] = {0,1,2,8};
 String pinType[sensorCount] = {"a","a","a","d"};
-int conversionFactors[sensorCount] = {1,1,0.10,1};
 
 
 //wifi connection information
-char ssid[] = "Tufts_Wireless";
+char ssid[] = "Tufts_Wireless"; //name of your WiFi network
 char pass[] = "";   //password for WiFi network
-int keyIndex = 0;            // your network key Index number (needed only for WEP)
+int keyIndex = 0;  // your network key Index number (needed only for WEP)
        
 byte mac[6];
 int status = WL_IDLE_STATUS;
-int port=80;
 
 WiFiClient client; // initialize WiFi client library
 IPAddress myIP; //IP address of remote Edge device
 
 //Initialize ThingWorx server and app key
-char server[] = "52.202.159.58";                  //ThingWorx server (do not include http://)
+char server[] = "52.202.159.58"; //ThingWorx server (do not include http://)
+int port=80; //port number for your server, 80 is default
 char appKey[] = "0aae8b5f-871a-4973-bdf2-199fabb27dcb";   //ThingWorx Application Key
 char thingName[] = "GenericEdge";                     //Name of your Thing in ThingWorx
 char serviceName[] = "UpdateValues";   //Name of your Service (blank for now)
@@ -101,10 +100,6 @@ void loop() {
       Serial.println("Have incorrect pin type for sensor " + String(i));
     }
   }
-  
-//  for(int i=0; i<sensorCount;i++){
-//    sensorValues[i] = conversionFactors[i]*sensorValues[i];
-//  }
 
   UpdateValues(sensorValues,client,server,port,appKey,thingName,serviceName,nameArray,sensorCount);
   delay(1000);
